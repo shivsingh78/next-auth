@@ -17,8 +17,9 @@ function signin() {
     e.preventDefault()
    try {
      const data = await signIn("credentials",{
-      email,password
+      email,password,redirect:false
      })
+     router.push("/")
    
    } catch (error) {
     console.log(error)
@@ -47,7 +48,7 @@ function signin() {
              />
 
           </div>
-           <p className='text-sm text-center mt-1  ' onClick={()=>router.push("/signin")}>Want to create an account ? <span className='text-blue-400 hover:underline cursor-pointer'>signin</span></p>
+           <p className='text-sm text-center mt-1  ' onClick={()=>router.push("/signup")}>Want to create an account ? <span className='text-blue-400 hover:underline cursor-pointer'>signup</span></p>
           <button className='w-full py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors cursor-pointer  '>signin</button>
           </form>
 
@@ -57,7 +58,12 @@ function signin() {
             <hr className="grow border-gray-500 " />
           </div>
          
-         <button className='w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-400 rounded-lg bg-white text-black hover:bg-gray-100 transition-colors cursor-pointer'>
+        <button className='w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-400 rounded-lg bg-white text-black hover:bg-gray-100 transition-colors cursor-pointer' onClick={()=>{
+          signIn('google',{
+           callbackUrl:"/"
+          })
+         
+          }}>
           <FcGoogle/>
           <span>Sign In With Google</span>
          </button>
