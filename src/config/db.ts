@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-let mongodbUrl=process.env.MONGODB_URL
+const mongodbUrl=process.env.MONGODB_URL
 
 if(!mongodbUrl){
      throw new Error("mongodb url is not found.")

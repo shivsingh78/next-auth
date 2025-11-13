@@ -1,17 +1,14 @@
 'use client'
-import axios from 'axios';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import React, { useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 
-function signin() {
+function Signin() {
   const [email,setEmail]=useState("")
   const [password,setPassword]=useState("")
   const router = useRouter()
-  const session = useSession()
-  console.log(session)
 
   const handleSignIn = async (e:React.FormEvent)=>{
     e.preventDefault()
@@ -74,4 +71,4 @@ function signin() {
   )
 } 
 
-export default signin
+export default Signin

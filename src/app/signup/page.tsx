@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 
-function signup() {
+function Signup() {
   const [name,setName]=useState("")
   const [email,setEmail]=useState("")
   const [password,setPassword]=useState("")
@@ -74,6 +74,6 @@ function signup() {
 
     </div>
   )
-} 
+}
 
-export default signup
+export default Signup
