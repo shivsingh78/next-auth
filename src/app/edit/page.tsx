@@ -1,7 +1,8 @@
 'use client'
+import axios from 'axios';
 import { useSession } from 'next-auth/react'
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { CgProfile } from "react-icons/cg";
 
 function page() {
@@ -17,6 +18,21 @@ function page() {
     setBackendImage(file)
     setFrontendImage(URL.createObjectURL(file))
   }
+  const handleSubmit=async (e:FormEvent)=>{
+    e.preventDefault()
+   try {
+     const formData=new FormData()
+    formData.append("name",name)
+    if(backendImage){
+      formData.append("file",backendImage)
+    }
+    const result = await axios.post('/api/edit',formData)
+    console.log(result)
+   } catch (error) {
+    console.log(error)
+    
+   }
+  }
 
 
 
@@ -31,7 +47,7 @@ function page() {
     <div className='min-h-screen flex flex-col items-center justify-center bg-black text-white px-4 '>
       <div className="w-full max-w-md border-2 border-white rounded-2xl p-8 shadow-lg ">
         <h1 className="text-2xl font-semibold text-center mb-2 "> Edit Profile</h1>
-        <form className='space-y-2 flex flex-col w-full items-center'>
+        <form className='space-y-2 flex flex-col w-full items-center'onSubmit={handleSubmit} >
           <div className="w-[100px] h-[100px] rounded-full border-2 flex justify-center items-center border-white transition-all hover:border-blue-500 text-white hover:text-blue-500 cursor-pointer overflow-hidden relative " onClick={()=>imageInput.current?.click() } >
             <input type="file" accept='image/*' hidden ref={imageInput} onChange={handleImage} />
             {frontendImage ?<Image src={frontendImage} fill alt='userImage'  /> : <CgProfile size={110} color='white' /> }
