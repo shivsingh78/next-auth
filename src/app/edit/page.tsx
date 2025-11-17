@@ -1,12 +1,14 @@
 'use client'
+import { userDataContext } from '@/context/UserContext';
 import axios from 'axios';
 import { useSession } from 'next-auth/react'
 import Image from 'next/image';
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import React, { FormEvent, useContext, useEffect, useRef, useState } from 'react'
 import { CgProfile } from "react-icons/cg";
 
 function page() {
-  const {data}=useSession()
+  const [loading,setLoading]=useState(false)
+  const data = useContext(userDataContext)
   const [name,setName]=useState('')
   const [frontendImage,setFrontendImage]=useState("")
   const [backendImage,setBackendImage]=useState<File>()
@@ -19,6 +21,7 @@ function page() {
     setFrontendImage(URL.createObjectURL(file))
   }
   const handleSubmit=async (e:FormEvent)=>{
+    setLoading(true)
     e.preventDefault()
    try {
      const formData=new FormData()
@@ -27,8 +30,10 @@ function page() {
       formData.append("file",backendImage)
     }
     const result = await axios.post('/api/edit',formData)
-    console.log(result)
+    data?.setUser(result.data)
+    setLoading(false)
    } catch (error) {
+    setLoading(false)
     console.log(error)
     
    }
@@ -38,8 +43,8 @@ function page() {
 
   useEffect(()=>{
     if(data){
-      setName(data?.user.name as string)
-      setFrontendImage(data?.user.image as string)
+      setName(data?.user?.name as string)
+      setFrontendImage(data?.user?.image as string)
     }
 
   },[data])
@@ -63,7 +68,7 @@ function page() {
                />
 
             </div>
-            <button className="w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors  ">Save</button>
+            <button className="w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors  ">{loading?"Saving...":"Save"}</button>
         </form>
 
       </div>

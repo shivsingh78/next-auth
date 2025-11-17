@@ -1,13 +1,13 @@
 'use client'
+import { userDataContext } from '@/context/UserContext';
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { FaPencilAlt } from "react-icons/fa";
 
 function Page() {
-  const {data} = useSession()
-  console.log(data)
+  const data=useContext(userDataContext)
   const [loading,setLoading]=useState(false)
    const router = useRouter()
 
@@ -30,10 +30,10 @@ function Page() {
       {data && 
       <div className='w-full max-w-md border-2 border-white rounded-2xl p-8 shadow-lg text-center relative flex flex-col items-center '>
         <FaPencilAlt size={22} color='white' className='absolute right-5 top-5 cursor-pointer ' onClick={()=>router.push('/edit')}/>
-        {data.user.image && <div className='relative w-[200px] h-[200px] rounded-full border-2 border-white overflow-hidden '>
-          <Image src={data.user.image} alt='user profile img' fill/>
+        {data?.user?.image && <div className='relative w-[200px] h-[200px] rounded-full border-2 border-white overflow-hidden '>
+          <Image src={data?.user.image} alt='user profile img' fill/>
           </div>}
-          <h1 className='text-2xl font-semibold mb-4 pt-2'>Welcome , {data.user.name}</h1>
+          <h1 className='text-2xl font-semibold mb-4 pt-2'>Welcome , {data.user?.name}</h1>
           <button className='w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors ' onClick={handleSignOut}>Sign Out</button>
 
 
